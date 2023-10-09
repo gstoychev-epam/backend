@@ -1,0 +1,26 @@
+service: product-service
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: eu-central-1
+
+plugins:
+  - serverless-auto-swagger
+
+functions:
+  getProductsList:
+    handler: getProductsList.getProductsList
+    events:
+      - http:
+          path: /product
+          method: get
+          cors: true
+  getProductsById:
+    handler: getProductsById.getProductsById
+    events:
+      - http:
+          path: /product/{productId}
+          method: get
+          cors: true
