@@ -5,6 +5,18 @@ provider:
   name: aws
   runtime: nodejs18.x
   region: eu-central-1
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - "arn:aws:dynamodb:eu-central-1:411280288885:table/stocks"
+        - "arn:aws:dynamodb:eu-central-1:411280288885:table/products"
 
 plugins:
   - serverless-auto-swagger
@@ -23,4 +35,12 @@ functions:
       - http:
           path: /product/{productId}
           method: get
+          request: { parameters: { paths: { productId: true } } }
+          cors: true
+  createProduct:
+    handler: createProduct.createProduct
+    events:
+      - http:
+          path: /product
+          method: post
           cors: true

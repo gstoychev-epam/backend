@@ -1,36 +1,52 @@
+const AWS = require("aws-sdk");
+const { _ } = require("lodash");
+const dynamo = new AWS.DynamoDB.DocumentClient({ apiVersion: "2012-08-10" });
+
+const query = async (tableName, id) => {
+  const queryResult = await dynamo
+    .get({
+      TableName: tableName,
+      Key: {
+        id: id,
+        title: "First Product",
+      },
+    })
+    .promise();
+  return queryResult;
+};
+
 module.exports.getProductsById = async (event) => {
-  const index = Math.random() >= 0.5 ? 1 : 0;
-  return {
-    statusCode: 200,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Credentials": true,
-    },
-    body: JSON.stringify(
-      [
-        [
-          {
-            id: 0,
-            title: "Car brand",
-            description: "Maybe cool car",
-            price: 100,
-          },
-          {
-            id: 1,
-            title: "Own Product 2",
-            description: "Super cool",
-            price: 46532,
-          },
-          {
-            id: 2,
-            title: "Car brand",
-            description: "Definitely cool car",
-            price: 25400,
-          },
-        ][index],
-      ],
-      null,
-      2
-    ),
-  };
+  try {
+    const { productId } = event.pathParameters;
+    const queryResult = await query("products", productId);
+
+    if (queryResult.Item) {
+      return {
+        statusCode: 200,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
+        },
+        body: JSON.stringify(queryResult.Item, null, 2),
+      };
+    }
+
+    return {
+      statusCode: 400,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+      },
+      body: "Not found",
+    };
+  } catch {
+    return {
+      statusCode: 500,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+      },
+      body: "Internal server error",
+    };
+  }
 };

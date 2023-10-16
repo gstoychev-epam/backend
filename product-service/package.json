@@ -1,0 +1,23 @@
+{
+  "name": "product-service",
+  "version": "1.0.0",
+  "description": "Serverless aws-node-http-api-project template",
+  "main": "serverless.yml",
+  "scripts": {
+    "deploy": "sls deploy",
+    "remove": "sls remove"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1473.0",
+    "lodash": "^4.17.21",
+    "uuid": "^9.0.1"
+  },
+  "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
+  "license": "MIT",
+  "devDependencies": {
+    "@faker-js/faker": "^8.2.0"
+  }
+}
