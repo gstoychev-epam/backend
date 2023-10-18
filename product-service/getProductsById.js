@@ -32,7 +32,7 @@ module.exports.getProductsById = async (event) => {
     }
 
     return {
-      statusCode: 400,
+      statusCode: 404,
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Credentials": true,

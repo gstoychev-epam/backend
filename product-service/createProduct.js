@@ -1,7 +1,6 @@
 const AWS = require("aws-sdk");
 const { v4: uuidv4 } = require("uuid");
 const dynamo = new AWS.DynamoDB.DocumentClient();
-const id = uuidv4();
 
 const put = async (item) => {
   const productPutResult = await dynamo
@@ -22,6 +21,7 @@ const put = async (item) => {
 };
 
 module.exports.createProduct = async (event) => {
+  const id = uuidv4();
   const {
     title,
     price = 1,
