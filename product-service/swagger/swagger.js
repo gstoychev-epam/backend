@@ -23,6 +23,23 @@
             "description": "200 response"
           }
         }
+      },
+      "post": {
+        "summary": "createProduct",
+        "description": "",
+        "operationId": "createProduct.post./product",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
       }
     },
     "/product/{productId}": {
