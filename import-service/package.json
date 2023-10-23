@@ -1,0 +1,20 @@
+{
+  "name": "import-service",
+  "version": "1.0.0",
+  "description": "File upload service",
+  "main": "serverless.yml",
+  "scripts": {
+    "deploy": "sls deploy",
+    "remove": "sls remove"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.431.0",
+    "@aws-sdk/s3-request-presigner": "^3.431.0",
+    "csv-parser": "^3.0.0"
+  },
+  "author": "Georgi Stoychev",
+  "license": "MIT"
+}

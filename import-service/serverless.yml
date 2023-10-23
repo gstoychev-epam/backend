@@ -1,0 +1,52 @@
+service: import-service
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: eu-central-1
+  iam:
+    {
+      role:
+        {
+          statements:
+            [
+              {
+                Effect: "Allow",
+                Action:
+                  [
+                    "s3:ListBucket",
+                    "s3:PutObject",
+                    "s3:GetObjectAcl",
+                    "s3:GetObject",
+                    "s3:PutObjectVersionAcl",
+                    "s3:GetObjectTagging",
+                    "s3:DeleteObject",
+                    "s3:GetBucketLocation",
+                    "s3:PutObjectAcl",
+                  ],
+                Resource: "arn:aws:s3:::s3-import-product-bucket/*",
+                Sid: "AllowPublic",
+              },
+            ],
+        },
+    }
+
+functions:
+  importProductsFile:
+    handler: importProductsFile.importProductsFile
+    events:
+      - http:
+          path: /import
+          method: get
+          request: { parameters: { querystrings: { name: true } } }
+          cors: true
+  importFileParser:
+    handler: importFileParser.importFileParser
+    events:
+      - s3:
+          bucket: s3-import-product-bucket
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: uploads/
+          existing: true
