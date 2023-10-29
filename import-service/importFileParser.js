@@ -4,7 +4,7 @@ const {
   GetObjectCommand,
   S3Client,
 } = require("@aws-sdk/client-s3");
-const csv = require("@aws-sdk/client-s3");
+const csv = require("csv-parser");
 const BUCKET = "s3-import-product-bucket";
 
 const client = new S3Client({ region: "eu-central-1" });
