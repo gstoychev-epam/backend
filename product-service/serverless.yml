@@ -17,6 +17,16 @@ provider:
       Resource:
         - "arn:aws:dynamodb:eu-central-1:411280288885:table/stocks"
         - "arn:aws:dynamodb:eu-central-1:411280288885:table/products"
+    - Effect: "Allow"
+      Action:
+        - sqs:*
+      Resource:
+        - "arn:aws:sqs:eu-central-1:411280288885:catalogItemsQueue"
+    - Effect: "Allow"
+      Action:
+        - sns:*
+      Resource:
+        Ref: catalogBatchProcessTopic
 
 plugins:
   - serverless-auto-swagger
@@ -44,3 +54,27 @@ functions:
           path: /product
           method: post
           cors: true
+  catalogBatchProcess:
+    handler: catalogBatchProcess.catalogBatchProcess
+    events:
+      - sqs:
+          batchSize: 5
+          arn: "arn:aws:sqs:eu-central-1:411280288885:catalogItemsQueue"
+
+resources:
+  Resources:
+    catalogItemsQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: catalogItemsQueue
+    catalogBatchProcessTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: createProductTopic
+    catalogBatchProcessSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: georgi_stoychev@epam.com
+        Protocol: email
+        TopicArn:
+          Ref: catalogBatchProcessTopic
