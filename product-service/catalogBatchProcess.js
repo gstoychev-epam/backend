@@ -2,7 +2,7 @@ const { PublishCommand, SNSClient } = require("@aws-sdk/client-sns");
 const createProduct = require("./createProduct");
 
 const snsClient = new SNSClient({});
-const smsSendCmd = new PublishCommand({
+const snsSendCmd = new PublishCommand({
   Message: "Products added to DB",
   TopicArn: "arn:aws:sns:eu-central-1:411280288885:createProductTopic",
 });
@@ -13,7 +13,7 @@ module.exports.catalogBatchProcess = async (event) => {
 
     try {
       const productInfo = JSON.parse(record.body);
-
+      console.log("Process entry: ", productInfo);
       createProduct(productInfo);
     } catch (e) {
       console.log(e);
@@ -21,7 +21,7 @@ module.exports.catalogBatchProcess = async (event) => {
   }
 
   try {
-    await snsClient.send(smsSendCmd);
+    await snsClient.send(snsSendCmd);
   } catch (e) {
     console.log(e);
   }
