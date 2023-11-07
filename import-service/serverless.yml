@@ -47,6 +47,10 @@ functions:
           method: get
           request: { parameters: { querystrings: { name: true } } }
           cors: true
+          authorizer:
+            {
+              arn: "arn:aws:lambda:eu-central-1:411280288885:function:authorization-service-dev-basicAuthorizer",
+            }
   importFileParser:
     handler: importFileParser.importFileParser
     events:
