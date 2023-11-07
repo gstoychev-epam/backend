@@ -1,0 +1,20 @@
+{
+  "name": "authorization-service",
+  "version": "1.0.0",
+  "main": "serverless.yml",
+  "scripts": {
+    "deploy": "sls deploy",
+    "remove": "sls remove"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "dependencies": {
+    "serverless-dotenv-plugin": "^6.0.0"
+  },
+  "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
+  "license": "MIT",
+  "devDependencies": {
+    "@faker-js/faker": "^8.2.0"
+  }
+}
