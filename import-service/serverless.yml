@@ -28,6 +28,12 @@ provider:
                 Resource: "arn:aws:s3:::s3-import-product-bucket/*",
                 Sid: "AllowPublic",
               },
+              {
+                Effect: "Allow",
+                Action: ["sqs:*"],
+                Resource:
+                  ["arn:aws:sqs:eu-central-1:411280288885:catalogItemsQueue"],
+              },
             ],
         },
     }
